@@ -1,0 +1,240 @@
+/*
+  Shared components
+
+  Buttons, badges, cards and form inputs. Each one has a matching React
+  component in src/components, so pages never style these from scratch.
+*/
+
+/* ---------- Buttons ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-round);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.button:hover {
+  text-decoration: none;
+}
+
+.button-primary {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.button-secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.button-secondary:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.button-ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.button-ghost:hover {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.button-lost {
+  background: var(--color-lost);
+  color: #ffffff;
+}
+
+.button-found {
+  background: var(--color-found);
+  color: #ffffff;
+}
+
+.button-lost:hover,
+.button-found:hover {
+  filter: brightness(0.93);
+}
+
+.button-small {
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: var(--font-size-small);
+}
+
+.button-large {
+  min-height: 52px;
+  padding: 0 26px;
+  font-size: var(--font-size-body);
+}
+
+/* ---------- Badges ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-round);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge-lost {
+  background: var(--color-lost-light);
+  color: var(--color-lost);
+}
+
+.badge-found {
+  background: var(--color-found-light);
+  color: var(--color-found);
+}
+
+.badge-pending {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+.badge-info {
+  background: var(--color-info-light);
+  color: var(--color-info);
+}
+
+.badge-returned {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.badge-neutral {
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+}
+
+/* ---------- Cards ---------- */
+
+.card {
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-small);
+}
+
+.card-grid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+/* ---------- Item card ---------- */
+
+.item-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  color: inherit;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.item-card:hover {
+  text-decoration: none;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-large);
+}
+
+.item-card-picture {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.item-card-picture.is-lost {
+  background: var(--color-lost-light);
+  color: var(--color-lost);
+}
+
+.item-card-picture.is-found {
+  background: var(--color-found-light);
+  color: var(--color-found);
+}
+
+.item-card-picture .badge {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  background: var(--color-surface);
+}
+
+.item-card-details {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-md);
+}
+
+.item-card-title {
+  font-weight: 700;
+}
+
+.item-card-meta {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* ---------- Form inputs ---------- */
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}

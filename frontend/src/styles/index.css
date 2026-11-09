@@ -1,0 +1,10 @@
+/*
+  All global styles, loaded once in main.jsx.
+  Order matters: tokens first, then base, then layout and components.
+  Page-specific styles live in styles/pages and are imported by each page.
+*/
+
+@import "./tokens.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./components.css";

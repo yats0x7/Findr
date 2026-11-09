@@ -1,0 +1,21 @@
+/* Shared by PlaceholderPage and NotFoundPage */
+
+.placeholder-page {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+  max-width: 640px;
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-2xl);
+}
+
+.placeholder-page h1 {
+  margin: 0;
+  font-size: var(--font-size-h2);
+}
+
+.placeholder-page p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-large);
+}
