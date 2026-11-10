@@ -183,10 +183,26 @@
   color: var(--color-found);
 }
 
-.item-card-picture .badge {
+/* A photo fills the tile, cropped to the same 4:3 shape on every card */
+.item-card-picture img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-card-badges {
   position: absolute;
   top: var(--space-md);
   left: var(--space-md);
+  right: var(--space-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.item-card-badges .badge {
   background: var(--color-surface);
 }
 
@@ -209,6 +225,7 @@
 
 .field {
   display: grid;
+  align-content: start; /* side-by-side fields keep their inputs the same height */
   gap: 6px;
 }
 
@@ -237,4 +254,227 @@
 
 .input::placeholder {
   color: var(--color-text-muted);
+}
+
+/* Dropdowns get their own arrow so they look the same in every browser */
+select.input {
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235c5c76' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  cursor: pointer;
+}
+
+textarea.input {
+  min-height: 112px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Inputs that failed validation */
+.input[aria-invalid="true"] {
+  border-color: var(--color-lost);
+}
+
+.input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px var(--color-lost-light);
+}
+
+.field-hint {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+.field-error {
+  color: var(--color-lost);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+}
+
+.field-optional {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* fieldset and legend are used to group radio buttons; remove their browser styling */
+fieldset.field {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+
+fieldset.field legend {
+  padding: 0;
+  margin-bottom: 6px;
+}
+
+/* ---------- Segmented control (All / Lost / Found) ---------- */
+
+.segmented {
+  display: flex;
+  padding: 4px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-round);
+  background: var(--color-surface-soft);
+}
+
+.segmented-option {
+  flex: 1;
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: var(--radius-round);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* The real radio button stays in the page for keyboards and screen readers, just invisible */
+.segmented-option input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.segmented-option.is-selected {
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-small);
+}
+
+.segmented-option:has(input:focus-visible) {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+/* ---------- Alerts ---------- */
+
+.alert {
+  padding: 14px 18px;
+  border-radius: var(--radius-medium);
+  border: 1px solid transparent;
+  font-size: 0.9375rem;
+}
+
+.alert-success {
+  background: var(--color-found-light);
+  border-color: color-mix(in srgb, var(--color-found) 25%, transparent);
+  color: #0a6b4b;
+}
+
+.alert-error {
+  background: var(--color-lost-light);
+  border-color: color-mix(in srgb, var(--color-lost) 25%, transparent);
+  color: #a52a3f;
+}
+
+/* ---------- Empty and loading states ---------- */
+
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-2xl) var(--space-lg);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-large);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.empty-state h2 {
+  margin: 0;
+  font-size: var(--font-size-h3);
+}
+
+.empty-state p {
+  max-width: 440px;
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.empty-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.loading-text {
+  padding: var(--space-2xl) 0;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Filter panel (Explore and Map) ---------- */
+
+.filter-panel {
+  display: grid;
+  gap: var(--space-md);
+}
+
+/* Explore: a column of filters in a card */
+.filter-panel-sidebar {
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+}
+
+/* Map: the same filters in a row of columns */
+.filter-panel-bar {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  align-items: end;
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+}
+
+.filter-panel-bar .filter-dates {
+  grid-column: span 2;
+}
+
+@media (max-width: 420px) {
+  .filter-panel-bar .filter-dates {
+    grid-column: auto;
+  }
+}
+
+.filter-date-inputs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+/* Both date boxes share the row equally; without width: 0 they refuse to shrink on phones */
+.filter-date-inputs .input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  padding: 10px;
+}
+
+.filter-clear {
+  justify-self: start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filter-clear:hover {
+  text-decoration: underline;
 }
