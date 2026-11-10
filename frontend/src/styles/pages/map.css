@@ -1,0 +1,92 @@
+/* Map page */
+
+.map-page {
+  display: grid;
+  gap: var(--space-md);
+  padding-top: var(--space-xl);
+}
+
+.map-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.map-header h1 {
+  margin-bottom: var(--space-sm);
+  font-size: var(--font-size-h2);
+}
+
+.map-header p {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.map-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.map-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.map-legend-dot.is-lost {
+  background: var(--color-lost);
+}
+
+.map-legend-dot.is-found {
+  background: var(--color-found);
+}
+
+.map-legend-loading {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.map-frame {
+  position: relative;
+}
+
+.map-main {
+  height: min(70vh, 640px);
+  min-height: 360px;
+}
+
+.map-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.map-overlay p {
+  margin: 0;
+  padding: 12px 18px;
+  border-radius: var(--radius-medium);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-large);
+  font-weight: 600;
+}
+
+.map-note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}

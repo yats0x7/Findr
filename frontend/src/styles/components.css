@@ -474,3 +474,66 @@ fieldset.field legend {
 .filter-clear:hover {
   text-decoration: underline;
 }
+
+/* ---------- Maps (Leaflet) ---------- */
+
+.item-map {
+  width: 100%;
+  border-radius: var(--radius-large);
+  border: 1px solid var(--color-border);
+  /* leaflet panes go up to z-index 1000, keep them under the navbar */
+  z-index: 0;
+}
+
+/* teardrop pins */
+.map-pin span {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0 2px;
+  border: 3px solid #ffffff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgba(22, 22, 42, 0.35);
+}
+
+.map-pin-lost span {
+  background: var(--color-lost);
+}
+
+.map-pin-found span {
+  background: var(--color-found);
+}
+
+.leaflet-container {
+  font-family: var(--font-family);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-medium);
+}
+
+.map-popup {
+  display: grid;
+  gap: 2px;
+  min-width: 180px;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.map-popup strong {
+  margin-top: var(--space-xs);
+  color: var(--color-text);
+  font-size: 0.9375rem;
+}
+
+.map-popup a {
+  margin-top: var(--space-xs);
+  font-weight: 700;
+}
+
+.map-popup-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}

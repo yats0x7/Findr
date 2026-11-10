@@ -165,6 +165,10 @@
   padding-top: var(--space-xl);
 }
 
+.details-map {
+  height: 320px;
+}
+
 @media (max-width: 860px) {
   .details-layout {
     grid-template-columns: 1fr;
@@ -180,5 +184,9 @@
 
   .details-next .button {
     width: 100%;
+  }
+
+  .details-map {
+    height: 240px;
   }
 }
