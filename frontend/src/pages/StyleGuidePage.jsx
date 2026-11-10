@@ -1,7 +1,8 @@
 import Badge from '../components/Badge'
 import Button from '../components/Button'
 import ItemCard from '../components/ItemCard'
-import { sampleItems } from '../data/sampleItems'
+import { useAsync } from '../hooks/useAsync'
+import { listItems } from '../services/itemService'
 import '../styles/pages/style-guide.css'
 
 /*
@@ -24,6 +25,8 @@ const COLOURS = [
 const STATUSES = ['LOST', 'FOUND', 'OPEN', 'CLAIM_PENDING', 'CLAIM_APPROVED', 'RETURNED', 'CLOSED']
 
 function StyleGuidePage() {
+  const exampleItems = useAsync(() => listItems({ limit: 3 }), []).data || []
+
   return (
     <div className="container style-guide">
       <h1>Style guide</h1>
@@ -100,8 +103,8 @@ function StyleGuidePage() {
       <section className="style-guide-section">
         <h2>Item cards</h2>
         <div className="card-grid">
-          {sampleItems.slice(0, 3).map((item) => (
-            <ItemCard key={item.id} item={item} />
+          {exampleItems.map((item) => (
+            <ItemCard key={item.item_id} item={item} />
           ))}
         </div>
       </section>

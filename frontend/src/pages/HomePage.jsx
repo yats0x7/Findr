@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import ItemCard from '../components/ItemCard'
-import { sampleCommunities, sampleItems } from '../data/sampleItems'
+import { useAsync } from '../hooks/useAsync'
+import { listItems } from '../services/itemService'
+import { listCommunities } from '../services/referenceService'
+import { COMMUNITY_TYPE_LABELS } from '../utils/labels'
 import '../styles/pages/home.css'
 
 // The four steps of Findr, shown in the "How Findr works" section
@@ -41,17 +44,13 @@ const REASONS = [
   },
 ]
 
-// Newest first, so the Home page shows the latest reports
-function newestFirst(itemA, itemB) {
-  return itemB.date.localeCompare(itemA.date)
-}
-
 function HomePage() {
   const [searchText, setSearchText] = useState('')
   const navigate = useNavigate()
 
-  const recentlyLost = sampleItems.filter((item) => item.type === 'LOST').sort(newestFirst).slice(0, 4)
-  const recentlyFound = sampleItems.filter((item) => item.type === 'FOUND').sort(newestFirst).slice(0, 4)
+  const recentlyLost = useAsync(() => listItems({ reportType: 'LOST', status: 'OPEN', limit: 4 }), []).data || []
+  const recentlyFound = useAsync(() => listItems({ reportType: 'FOUND', status: 'OPEN', limit: 4 }), []).data || []
+  const communities = useAsync(() => listCommunities(), []).data || []
 
   // Searching from Home takes you to Explore with the search already filled in
   function handleSearch(event) {
@@ -145,7 +144,7 @@ function HomePage() {
         </div>
         <div className="card-grid">
           {recentlyLost.map((item) => (
-            <ItemCard key={item.id} item={item} />
+            <ItemCard key={item.item_id} item={item} />
           ))}
         </div>
       </section>
@@ -161,7 +160,7 @@ function HomePage() {
         </div>
         <div className="card-grid">
           {recentlyFound.map((item) => (
-            <ItemCard key={item.id} item={item} />
+            <ItemCard key={item.item_id} item={item} />
           ))}
         </div>
       </section>
@@ -215,9 +214,13 @@ function HomePage() {
           </div>
         </div>
         <div className="communities">
-          {sampleCommunities.map((community) => (
-            <Link key={community.id} to={`/explore?community=${community.id}`} className="card community-card">
-              <span className="badge badge-neutral">{community.type}</span>
+          {communities.map((community) => (
+            <Link
+              key={community.community_id}
+              to={`/explore?community=${community.community_id}`}
+              className="card community-card"
+            >
+              <span className="badge badge-neutral">{COMMUNITY_TYPE_LABELS[community.community_type]}</span>
               <h3>{community.name}</h3>
               <p>{community.description}</p>
               <span className="community-link">Browse items →</span>

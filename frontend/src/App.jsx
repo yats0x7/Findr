@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
+import ExplorePage from './pages/ExplorePage'
+import ItemDetailsPage from './pages/ItemDetailsPage'
 import StyleGuidePage from './pages/StyleGuidePage'
 import PlaceholderPage from './pages/PlaceholderPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -8,14 +10,12 @@ import NotFoundPage from './pages/NotFoundPage'
 /*
   Every page in Findr and the address (route) it lives at.
 
-  Only the Home page is real in Phase 1. The rest are placeholders that
-  say which roadmap stage builds them. When a stage is done, swap its
-  placeholder for the real page component.
+  Home, Explore and Item details are real.
+  The rest are placeholders that say which roadmap stage builds them.
+  When a stage is done, swap its placeholder for the real page component.
 */
 const PLANNED_PAGES = [
   // Public pages
-  { path: '/explore', title: 'Explore items', stage: '2.2', description: 'Browse, search and filter every lost and found report.' },
-  { path: '/items/:id', title: 'Item details', stage: '2.3', description: 'Photos, location and reporter for one item, plus the claim button.' },
   { path: '/report', title: 'Report an item', stage: '2.4', description: 'Tell the community what you lost or found.' },
   { path: '/map', title: 'Map', stage: '2.5', description: 'See roughly where items were lost or found around campus.' },
   { path: '/login', title: 'Log in', stage: '3.1', description: 'Sign in to report items and make claims.' },
@@ -41,6 +41,8 @@ function App() {
       {/* MainLayout wraps every page with the navbar and footer */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/items/:id" element={<ItemDetailsPage />} />
 
         {PLANNED_PAGES.map((page) => (
           <Route
