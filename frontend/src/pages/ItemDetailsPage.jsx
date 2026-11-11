@@ -4,6 +4,7 @@ import Badge from '../components/Badge'
 import Button from '../components/Button'
 import EmptyState from '../components/EmptyState'
 import ItemCard from '../components/ItemCard'
+import ItemMap from '../components/ItemMap'
 import { useAsync } from '../hooks/useAsync'
 import { getItem, hasMapLocation, listSimilarItems } from '../services/itemService'
 import { formatDate } from '../utils/formatDate'
@@ -190,6 +191,19 @@ function ItemDetailsPage() {
           </div>
         </div>
       </div>
+
+      {hasMapLocation(item) && (
+        <section className="details-section">
+          <div className="section-heading">
+            <div>
+              <h2>Where it was {isLost ? 'lost' : 'found'}</h2>
+              <p>The pin shows the approximate spot.</p>
+            </div>
+            <Link to="/map">Open the full map →</Link>
+          </div>
+          <ItemMap items={[item]} className="details-map" showPopups={false} scrollWheelZoom={false} />
+        </section>
+      )}
 
       {similarItems.length > 0 && (
         <section className="details-section">

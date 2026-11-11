@@ -3,6 +3,8 @@ import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
 import ExplorePage from './pages/ExplorePage'
 import ItemDetailsPage from './pages/ItemDetailsPage'
+import ReportPage from './pages/ReportPage'
+import MapPage from './pages/MapPage'
 import StyleGuidePage from './pages/StyleGuidePage'
 import PlaceholderPage from './pages/PlaceholderPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -10,14 +12,12 @@ import NotFoundPage from './pages/NotFoundPage'
 /*
   Every page in Findr and the address (route) it lives at.
 
-  Home, Explore and Item details are real.
+  Home and the Phase 2 pages (Explore, Item details, Report, Map) are real.
   The rest are placeholders that say which roadmap stage builds them.
   When a stage is done, swap its placeholder for the real page component.
 */
 const PLANNED_PAGES = [
   // Public pages
-  { path: '/report', title: 'Report an item', stage: '2.4', description: 'Tell the community what you lost or found.' },
-  { path: '/map', title: 'Map', stage: '2.5', description: 'See roughly where items were lost or found around campus.' },
   { path: '/login', title: 'Log in', stage: '3.1', description: 'Sign in to report items and make claims.' },
   { path: '/signup', title: 'Create an account', stage: '3.1', description: 'Join your college or community on Findr.' },
 
@@ -43,6 +43,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/items/:id" element={<ItemDetailsPage />} />
+        <Route path="/report" element={<ReportPage />} />
+        <Route path="/map" element={<MapPage />} />
 
         {PLANNED_PAGES.map((page) => (
           <Route

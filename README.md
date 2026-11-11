@@ -15,19 +15,22 @@ and the item's whole journey is tracked until it is returned.
 | 1.3 Routing and layout | Every page has its address, plus the navbar, footer and a 404 page |
 | 1.4 Home page | Hero with search, recent items, how Findr works, communities |
 
-**Phase 2: Core frontend pages** (in progress)
+**Phase 2: Core frontend pages** (this branch)
 
 | Stage | What it adds |
 | --- | --- |
 | 2.1 Mock data | Sample rows for all 10 tables in `src/services/`, same columns as `dbms/03_schema.sql` |
 | 2.2 Explore | `/explore` with search, filters and sort. Filters are kept in the URL |
-| 2.3 Item details | `/items/:id` with photos, info and similar items. Claim button only on found items |
+| 2.3 Item details | `/items/:id` with photos, info, a small map and similar items. Claim button only on found items |
+| 2.4 Report form | `/report` for lost and found reports, with photos, an optional map pin and the private question |
+| 2.5 Map | `/map` with every pinned report (red = lost, green = found), same filters as Explore |
 
-2.4 (Report) and 2.5 (Map) are next. Pages that aren't built yet show a placeholder with their stage.
+Phase 3 pages still show a placeholder with their stage.
 
 ### Mock data notes
 
 - No login yet, so everyone is the demo user Aarav Kapoor (until 3.1).
+- Reports you post are saved in localStorage. Reset with `localStorage.removeItem('findr-mock-reports-v1')`.
 - Answers to the sample private questions are at the top of `src/services/mockData.js`, for testing claims later.
 
 ## Run it on your computer
@@ -61,7 +64,7 @@ frontend/
     ├── pages/            one file per page
     ├── services/         every data call (sample data now, the real API in Phase 5)
     ├── hooks/            useAsync (loading data) and useItemFilters (filters in the URL)
-    ├── utils/            small helpers: dates, labels, hashing
+    ├── utils/            small helpers: dates, labels, hashing, photos, map settings
     └── styles/
         ├── tokens.css    every colour, size and spacing value
         ├── base.css      defaults for plain HTML elements
@@ -72,5 +75,5 @@ frontend/
 
 ## Tech stack
 
-React, Vite, JavaScript, React Router and plain CSS (no Tailwind).
-Planned for later phases: Node.js, Express, Multer, PostgreSQL, Leaflet.
+React, Vite, JavaScript, React Router, plain CSS (no Tailwind) and Leaflet with OpenStreetMap.
+Planned for later phases: Node.js, Express, Multer, PostgreSQL.
