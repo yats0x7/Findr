@@ -61,6 +61,12 @@ A claim only gets created after the answer matches the finder's private question
 bcrypt, the plain answer is never stored). Five wrong answers on one item lock that person out of
 it for an hour. Only the finder approves or rejects, and an item can have one approved claim.
 
+## Admins
+
+A community admin is a member with role `COMMUNITY_ADMIN`. They only see and manage their own
+communities. They can suspend members (who then can't report or claim there) and close any
+report with `POST /api/items/:id/close`. Approving claims stays with the finder.
+
 ## Errors
 
 Every error comes back in the same shape, with a fitting status code:
@@ -96,6 +102,20 @@ Form errors also have `fields`, like `{ "title": "Use at least 3 characters." }`
 | POST | `/api/claims/:id/withdraw` | Take back your claim while it's still waiting |
 | POST | `/api/claims/:id/approve` | Finder approves `{ note? }`. Other waiting claims on that item get rejected |
 | POST | `/api/claims/:id/reject` | Finder rejects `{ note? }` |
+| PUT | `/api/claims/:id/handover` | Set or move the handover `{ scheduled_at, handover_location }` (finder or owner) |
+| POST | `/api/claims/:id/handover/complete` | Finder confirms it was returned `{ note? }`. The item becomes RETURNED |
+| POST | `/api/claims/:id/handover/cancel` | Call off the handover (finder or owner) |
+| GET | `/api/me/notifications` | Your notifications, newest first, each with a `link` for the frontend |
+| GET | `/api/me/notifications/unread-count` | `{ unread }` for the bell |
+| POST | `/api/notifications/:id/read` | Mark one as read |
+| POST | `/api/me/notifications/read-all` | Mark all as read |
+| PATCH | `/api/me` | Change your name and phone `{ full_name, phone }` |
+| POST | `/api/communities/:id/join` | Join another community |
+| GET | `/api/admin/overview` | Numbers for each community you manage (admins only) |
+| GET | `/api/admin/members` | Members of your communities |
+| PATCH | `/api/admin/members/:id` | Suspend or bring back a member `{ membership_status }` |
+| GET | `/api/admin/items` | Every report in your communities |
+| GET | `/api/admin/claims` | Every claim in your communities, with `rejected_before` to spot misuse |
 | PATCH | `/api/items/:id` | Edit your own open report (title, category, description, date, place) |
 | POST | `/api/items/:id/close` | Close a report (the reporter or a community admin) |
 | GET | `/api/me/items?type=lost` | Your own lost or found reports, with claim counts |

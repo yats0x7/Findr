@@ -431,3 +431,21 @@ export const claims = [
   { claim_id: 'claim-5', item_id: 'item-bottle-hostel', claimant_id: 'user-aarav', verification_passed_at: '2026-10-26T19:30:00+05:30', status: 'APPROVED', review_note: null, reviewed_by: 'user-meera', reviewed_at: '2026-10-26T20:05:00+05:30', created_at: '2026-10-26T19:30:00+05:30', updated_at: '2026-10-26T20:05:00+05:30' },
 ]
 
+
+// ---------- Handovers and notifications ----------
+
+export const handovers = [
+  { handover_id: 'handover-1', claim_id: 'claim-2', scheduled_at: '2026-11-11T13:00:00+05:30', completed_at: null, handover_location: 'Sports Complex reception', confirmation_note: null, status: 'SCHEDULED' },
+  { handover_id: 'handover-2', claim_id: 'claim-3', scheduled_at: '2026-10-31T13:00:00+05:30', completed_at: '2026-10-31T13:10:00+05:30', handover_location: 'Library entrance', confirmation_note: 'Handed over in person.', status: 'COMPLETED' },
+  { handover_id: 'handover-3', claim_id: 'claim-5', scheduled_at: '2026-10-27T18:30:00+05:30', completed_at: '2026-10-27T18:40:00+05:30', handover_location: 'Greenview Hostel warden office', confirmation_note: null, status: 'COMPLETED' },
+]
+
+export const notifications = [
+  { notification_id: 'n-1', user_id: 'user-rohan', related_item_id: 'item-bottle-cafeteria', related_claim_id: 'claim-1', notification_type: 'CLAIM_SUBMITTED', message: 'Kabir Singh claimed your Blue steel water bottle.', is_read: false, created_at: '2026-11-03T11:00:00+05:30' },
+  { notification_id: 'n-2', user_id: 'user-ananya', related_item_id: 'item-earbuds-sports', related_claim_id: 'claim-2', notification_type: 'CLAIM_APPROVED', message: 'Your claim on the White wireless earbuds case was approved.', is_read: true, created_at: '2026-10-29T10:30:00+05:30' },
+  { notification_id: 'n-3', user_id: 'user-ananya', related_item_id: 'item-earbuds-sports', related_claim_id: 'claim-2', notification_type: 'HANDOVER_SCHEDULED', message: 'Handover set for 11 Nov, 1:00 pm at the Sports Complex reception.', is_read: false, created_at: '2026-10-29T10:35:00+05:30' },
+  { notification_id: 'n-4', user_id: 'user-kabir', related_item_id: 'item-bottle-hostel', related_claim_id: 'claim-4', notification_type: 'CLAIM_REJECTED', message: 'Your claim on the Pink Milton water bottle was not approved.', is_read: true, created_at: '2026-10-26T20:00:00+05:30' },
+  { notification_id: 'n-5', user_id: 'user-aarav', related_item_id: 'item-bottle-hostel', related_claim_id: 'claim-5', notification_type: 'CLAIM_APPROVED', message: 'Your claim on the Pink Milton water bottle was approved.', is_read: true, created_at: '2026-10-26T20:05:00+05:30' },
+  { notification_id: 'n-6', user_id: 'user-aarav', related_item_id: 'item-bottle-hostel', related_claim_id: 'claim-5', notification_type: 'HANDOVER_COMPLETED', message: 'Handover complete. The Pink Milton water bottle is marked returned.', is_read: true, created_at: '2026-10-27T18:40:00+05:30' },
+]
+
