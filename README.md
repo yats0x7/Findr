@@ -25,15 +25,16 @@ and the item's whole journey is tracked until it is returned.
 | 2.4 Report form | `/report` for lost and found reports, with photos, an optional map pin and the private question |
 | 2.5 Map | `/map` with every pinned report (red = lost, green = found), same filters as Explore |
 
-**Phase 3: User workflows** (in progress)
+**Phase 3: User workflows** (done)
 
 | Stage | What it adds |
 | --- | --- |
 | 3.1 Login and signup | `/login`, `/signup`, and guests get sent to login before reporting or claiming |
 | 3.2 Dashboard | `/dashboard` overview, my lost reports (edit, close, possible matches), my found reports (claim counts) |
 | 3.3 Claims | `/items/:id/claim` checks the answer before a claim exists. `/dashboard/claims` to follow or withdraw them |
-
-3.4-3.6 still show a placeholder with their stage.
+| 3.4 Verification | `/dashboard/verification` where the finder approves or rejects. Approving one closes the rest |
+| 3.5 Handover and notifications | Pick a time and place, the finder marks it returned. `/dashboard/notifications` and the bell in the navbar |
+| 3.6 Profile, help, admin | `/profile`, `/help` (FAQ, safety, contact form) and `/admin` for community admins: members, reports, claims |
 
 **Phase 4: Backend** (in progress, see [backend/README.md](backend/README.md))
 
@@ -41,10 +42,16 @@ and the item's whole journey is tracked until it is returned.
 | --- | --- |
 | 4.1 Express setup | `backend/` with Express, CORS, one error format and `GET /api/health` |
 | 4.2 Authentication | Signup and login with bcrypt passwords and JWT tokens, plus login and admin middleware |
+| 4.3 Items API | Browse with filters and pages, one item, similar items, report, edit and close |
+| 4.4 Image uploads | Photos with Multer: JPG, PNG or WebP, 5 MB each, 4 per report, checked to be real images |
+| 4.5 Claims API | Answer check before a claim exists, finder-only approve and reject, withdraw, limits on guessing |
 
 ### Mock data notes
 
-- Demo accounts all use the password `findr123`, e.g. `aarav@northfield.edu`. The login page lists a few.
+- Demo accounts all use the password `findr123`. Good ones to try:
+  `aarav@northfield.edu` (student), `ananya@northfield.edu` (finder with claims to review),
+  `rohan@northfield.edu` (admin of Northfield).
+- Profile has a "Reset demo data" button to start over.
 - Everything you do (reports, claims, new accounts) is saved in localStorage.
   Reset with `localStorage.removeItem('findr-mock-db-v2')`.
 - Answers to the sample private questions are at the top of `src/services/mockData.js`.
@@ -52,6 +59,9 @@ and the item's whole journey is tracked until it is returned.
 ## Run it on your computer
 
 You need [Node.js](https://nodejs.org) 20 or newer.
+
+The frontend still runs on its own sample data. The backend is separate for now
+(how to run it is in [backend/README.md](backend/README.md)), and Phase 5 connects the two.
 
 ```bash
 cd frontend
@@ -76,10 +86,10 @@ frontend/
     ├── main.jsx          starting point: sets up React and the router
     ├── App.jsx           list of every page and its address
     ├── layouts/          the frame around pages (navbar + footer, dashboard side menu)
-    ├── routes/           RequireLogin, which sends guests to /login
+    ├── routes/           RequireLogin (guests go to /login) and RequireAdmin
     ├── context/          AuthProvider, keeps the logged in user for every page
     ├── components/       reusable pieces: Button, Badge, ItemCard, ItemRow, Navbar...
-    ├── pages/            one file per page (dashboard pages in pages/dashboard)
+    ├── pages/            one file per page (pages/dashboard and pages/admin for those areas)
     ├── services/         every data call (sample data now, the real API in Phase 5)
     │                     rules.js has the claim rules in one place
     ├── hooks/            useAsync (loading data), useItemFilters (filters in the URL), useAuth
