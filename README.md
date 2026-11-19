@@ -36,7 +36,7 @@ and the item's whole journey is tracked until it is returned.
 | 3.5 Handover and notifications | Pick a time and place, the finder marks it returned. `/dashboard/notifications` and the bell in the navbar |
 | 3.6 Profile, help, admin | `/profile`, `/help` (FAQ, safety, contact form) and `/admin` for community admins: members, reports, claims |
 
-**Phase 4: Backend** (in progress, see [backend/README.md](backend/README.md))
+**Phase 4: Backend** (done, see [backend/README.md](backend/README.md))
 
 | Stage | What it adds |
 | --- | --- |
@@ -45,6 +45,10 @@ and the item's whole journey is tracked until it is returned.
 | 4.3 Items API | Browse with filters and pages, one item, similar items, report, edit and close |
 | 4.4 Image uploads | Photos with Multer: JPG, PNG or WebP, 5 MB each, 4 per report, checked to be real images |
 | 4.5 Claims API | Answer check before a claim exists, finder-only approve and reject, withdraw, limits on guessing |
+| 4.6 Handover, notifications, admin | Set, change, cancel and complete handovers, notifications, profile edits and the admin endpoints |
+
+The backend has 50 tests (`cd backend && npm test`). Phase 5 moves its data to PostgreSQL and
+connects the frontend to it.
 
 ### Mock data notes
 
@@ -104,5 +108,6 @@ frontend/
 
 ## Tech stack
 
-React, Vite, JavaScript, React Router, plain CSS (no Tailwind) and Leaflet with OpenStreetMap.
-Planned for later phases: Node.js, Express, Multer, PostgreSQL.
+Frontend: React, Vite, JavaScript, React Router, plain CSS (no Tailwind) and Leaflet with OpenStreetMap.
+Backend: Node.js, Express, bcrypt, JWT and Multer.
+Planned for phase 5: PostgreSQL.

@@ -57,3 +57,24 @@ export function toCurrentUser(user) {
     isAdmin: communities.some((community) => community.role === 'COMMUNITY_ADMIN'),
   }
 }
+
+export function updateProfile(user, { full_name, phone }) {
+  user.full_name = full_name
+  user.phone = phone || null
+  return user
+}
+
+export function findMembership(userId, communityId) {
+  return db.community_memberships.find((row) => row.user_id === userId && row.community_id === communityId) || null
+}
+
+export function addMembership(userId, communityId) {
+  db.community_memberships.push({
+    membership_id: randomUUID(),
+    community_id: communityId,
+    user_id: userId,
+    role: 'MEMBER',
+    membership_status: 'ACTIVE',
+    joined_at: new Date().toISOString(),
+  })
+}
