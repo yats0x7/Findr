@@ -36,6 +36,7 @@ function loadDb() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
     if (saved && TABLES.every((table) => Array.isArray(saved[table]))) {
+      addMissingSeedPhotos(saved)
       return saved
     }
   } catch {
@@ -45,6 +46,17 @@ function loadDb() {
   const tables = seedTables()
   addPhaseTwoReports(tables)
   return tables
+}
+
+// data saved before the sample items had photos still gets them
+function addMissingSeedPhotos(tables) {
+  const known = new Set(tables.item_images.map((image) => image.image_id))
+  const itemIds = new Set(tables.items.map((item) => item.item_id))
+  for (const image of seed.item_images) {
+    if (!known.has(image.image_id) && itemIds.has(image.item_id)) {
+      tables.item_images.push(structuredClone(image))
+    }
+  }
 }
 
 // so reports posted before this version don't disappear

@@ -97,5 +97,7 @@ test('guests cannot upload, and only the reporter can add photos later', async (
     .set('Authorization', aarav)
     .attach('photos', PNG, { filename: 'a.png', contentType: 'image/png' })
   assert.equal(mine.status, 201)
-  assert.equal(mine.body.item.images.length, 1)
+  // the sample photo plus the new one
+  assert.equal(mine.body.item.images.length, 2)
+  assert.match(mine.body.item.images[1].image_url, /^\/uploads\//)
 })
