@@ -93,6 +93,16 @@ export function insertReport({ item, images, question }) {
   return false
 }
 
+// Throws away every change made in this browser (and logs out). Reload the page after.
+export function resetDemoData() {
+  try {
+    localStorage.removeItem(STORAGE_KEY)
+    localStorage.removeItem(SESSION_KEY)
+  } catch {
+    // nothing was saved anyway
+  }
+}
+
 // ---------- Session (who is logged in) ----------
 
 export function getSessionUserId() {

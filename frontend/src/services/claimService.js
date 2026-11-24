@@ -88,7 +88,7 @@ export async function submitClaim(itemId, answer) {
   return copy(claim)
 }
 
-// Claims the logged in user made, newest first, with the item and the finder's name
+// Claims the logged in user made, newest first, with the item, the finder and the handover
 // phase 5: GET /api/me/claims
 export async function listMyClaims() {
   await networkDelay()
@@ -97,10 +97,7 @@ export async function listMyClaims() {
   const claims = db.claims
     .filter((claim) => claim.claimant_id === userId)
     .sort((claimA, claimB) => claimB.created_at.localeCompare(claimA.created_at))
-    .map((claim) => {
-      const item = toItemView(db.items.find((row) => row.item_id === claim.item_id))
-      return { ...claim, item, finder_name: item.reporter_name }
-    })
+    .map(withDetails)
 
   return copy(claims)
 }
@@ -134,4 +131,119 @@ function reopenIfNoPendingClaims(itemId) {
     item.status = 'OPEN'
     item.updated_at = new Date().toISOString()
   }
+}
+
+// ---------- Finder side (claim verification) ----------
+
+function withDetails(claim) {
+  const item = toItemView(db.items.find((row) => row.item_id === claim.item_id))
+  const claimant = db.users.find((user) => user.user_id === claim.claimant_id)
+  const handover = db.handovers.find((row) => row.claim_id === claim.claim_id) || null
+
+  return {
+    ...claim,
+    item,
+    finder_name: item.reporter_name,
+    claimant_name: claimant.full_name,
+    claimant_since: claimant.created_at,
+    handover,
+  }
+}
+
+// Claims on the logged in user's FOUND items, newest first
+// phase 5: GET /api/me/claims-to-review
+export async function listClaimsToReview() {
+  await networkDelay()
+
+  const userId = requireUserId()
+  const myItemIds = db.items
+    .filter((item) => item.reporter_id === userId && item.report_type === 'FOUND')
+    .map((item) => item.item_id)
+
+  const claims = db.claims
+    .filter((claim) => myItemIds.includes(claim.item_id))
+    .sort((claimA, claimB) => claimB.created_at.localeCompare(claimA.created_at))
+    .map(withDetails)
+
+  return copy(claims)
+}
+
+// Only the finder decides, and only on claims that are still waiting
+function findClaimToReview(claimId, userId) {
+  const claim = db.claims.find((row) => row.claim_id === claimId)
+  const item = claim && db.items.find((row) => row.item_id === claim.item_id)
+
+  if (!claim || item.reporter_id !== userId) {
+    throw new Error('Only the person who found the item can review its claims.')
+  }
+  if (claim.status !== 'PENDING') {
+    throw new Error('This claim was already decided.')
+  }
+  return { claim, item }
+}
+
+// Approving one claim rejects the others still waiting (one approved claim per item)
+// phase 5: POST /api/claims/:id/approve
+export async function approveClaim(claimId, note = '') {
+  await networkDelay(300)
+
+  const userId = requireUserId()
+  const { claim, item } = findClaimToReview(claimId, userId)
+  if (db.claims.some((row) => row.item_id === item.item_id && row.status === 'APPROVED')) {
+    throw new Error('You already approved a claim on this item.')
+  }
+
+  const now = new Date().toISOString()
+  decide(claim, 'APPROVED', note.trim() || null, userId, now)
+  addNotification({
+    userId: claim.claimant_id,
+    itemId: item.item_id,
+    claimId,
+    type: 'CLAIM_APPROVED',
+    message: `Your claim on the ${item.title} was approved. Arrange the handover with the finder.`,
+  })
+
+  for (const other of db.claims) {
+    if (other.item_id === item.item_id && other.status === 'PENDING') {
+      decide(other, 'REJECTED', 'Another claim on this item was approved.', userId, now)
+      addNotification({
+        userId: other.claimant_id,
+        itemId: item.item_id,
+        claimId: other.claim_id,
+        type: 'CLAIM_REJECTED',
+        message: `Your claim on the ${item.title} was not approved.`,
+      })
+    }
+  }
+
+  item.status = 'CLAIM_APPROVED'
+  item.updated_at = now
+  saveDb()
+}
+
+// phase 5: POST /api/claims/:id/reject
+export async function rejectClaim(claimId, note = '') {
+  await networkDelay(300)
+
+  const userId = requireUserId()
+  const { claim, item } = findClaimToReview(claimId, userId)
+
+  decide(claim, 'REJECTED', note.trim() || null, userId, new Date().toISOString())
+  addNotification({
+    userId: claim.claimant_id,
+    itemId: item.item_id,
+    claimId,
+    type: 'CLAIM_REJECTED',
+    message: `Your claim on the ${item.title} was not approved.`,
+  })
+  reopenIfNoPendingClaims(item.item_id)
+  saveDb()
+}
+
+function decide(claim, status, note, reviewerId, now) {
+  claim.status = status
+  claim.review_note = note
+  claim.reviewed_by = reviewerId
+  claim.reviewed_at = now
+  claim.updated_at = now
 }

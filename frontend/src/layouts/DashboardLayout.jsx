@@ -6,6 +6,9 @@ const DASHBOARD_LINKS = [
   { label: 'My lost reports', path: '/dashboard/lost-reports' },
   { label: 'My found reports', path: '/dashboard/found-reports' },
   { label: 'My claims', path: '/dashboard/claims' },
+  { label: 'Claim verification', path: '/dashboard/verification' },
+  { label: 'Notifications', path: '/dashboard/notifications' },
+  { label: 'Profile', path: '/profile' },
 ]
 
 // Side menu on the left, the dashboard page on the right (stacked on phones)

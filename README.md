@@ -80,6 +80,27 @@ Other commands:
 - `npm run build` creates the production version in `frontend/dist`
 - `npm run lint` checks the code for mistakes
 
+## Deploying
+
+Until Phase 5 the two parts are deployed separately and don't talk to each other yet.
+
+Frontend (a static site, e.g. Vercel or Netlify):
+
+- root directory `frontend`, build command `npm run build`, output folder `dist`
+- `frontend/vercel.json` and `frontend/public/_redirects` send every path to `index.html`,
+  so links like `/dashboard` still work after a refresh
+
+Backend (a Node server, e.g. Render or Railway):
+
+- root directory `backend`, start command `npm start`
+- set `NODE_ENV=production`, a random `JWT_SECRET` of 32+ characters
+  (`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
+  and `CORS_ORIGIN` to the frontend's address. The server won't start with a missing or weak secret.
+- data is kept in memory and uploaded photos on the server's disk, so both reset when it
+  restarts. Phase 5 moves the data to PostgreSQL.
+
+The demo accounts and their shared password are public, so treat a deploy as a demo, not for real users.
+
 ## How the frontend is organised
 
 ```

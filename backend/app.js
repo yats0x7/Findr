@@ -14,6 +14,16 @@ export function createApp() {
 
   app.use('/api', apiRoutes)
 
+  // uploaded item photos, e.g. /uploads/3f2a...png
+  // nosniff stops browsers from treating an upload as anything but an image
+  app.use(
+    '/uploads',
+    express.static(config.uploadDir, {
+      index: false,
+      setHeaders: (res) => res.setHeader('X-Content-Type-Options', 'nosniff'),
+    }),
+  )
+
   app.use(notFound)
   app.use(errorHandler)
 

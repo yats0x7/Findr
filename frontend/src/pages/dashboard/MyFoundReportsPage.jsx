@@ -72,16 +72,23 @@ function MyFoundReportsPage() {
           return (
             <ItemRow key={item.item_id} item={item}>
               <p className={`item-row-note ${item.pending_claims > 0 ? 'is-highlighted' : ''}`}>{claimSummary(item)}</p>
-              {isOpen && (
-                <div className="item-row-actions">
+              <div className="item-row-actions">
+                {item.total_claims > 0 && (
+                  <Button to={`/dashboard/verification?item=${item.item_id}`} size="small">
+                    {item.pending_claims > 0 ? 'Review claims' : 'See claims'}
+                  </Button>
+                )}
+                {isOpen && (
                   <Button to={`/dashboard/reports/${item.item_id}/edit`} variant="secondary" size="small">
                     Edit
                   </Button>
+                )}
+                {isOpen && (
                   <Button variant="ghost" size="small" onClick={() => handleClose(item)}>
                     Close report
                   </Button>
-                </div>
-              )}
+                )}
+              </div>
             </ItemRow>
           )
         })}

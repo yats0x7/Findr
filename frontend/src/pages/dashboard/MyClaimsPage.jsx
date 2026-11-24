@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Button from '../../components/Button'
 import EmptyState from '../../components/EmptyState'
+import HandoverPanel from '../../components/HandoverPanel'
 import ItemRow from '../../components/ItemRow'
 import { useAsync } from '../../hooks/useAsync'
 import { listMyClaims, withdrawClaim } from '../../services/claimService'
@@ -9,7 +10,7 @@ import { claimBadgeStatus } from '../../utils/labels'
 
 const WHAT_HAPPENS_NEXT = {
   PENDING: 'Your answer matched. The finder will look at your claim and approve or reject it.',
-  APPROVED: 'The finder approved your claim. Arrange the handover with them.',
+  APPROVED: 'The finder approved your claim. Agree a time and place to collect it.',
   REJECTED: "The finder didn't approve this claim.",
   WITHDRAWN: 'You withdrew this claim.',
 }
@@ -68,6 +69,10 @@ function MyClaimsPage() {
               </p>
               <p className="item-row-note">{returned ? 'You got it back. Nice!' : WHAT_HAPPENS_NEXT[claim.status]}</p>
               {claim.review_note && <p className="item-row-note">Finder's note: "{claim.review_note}"</p>}
+
+              {claim.status === 'APPROVED' && !returned && (
+                <HandoverPanel claim={claim} isFinder={false} onChange={() => setReloadCount((count) => count + 1)} />
+              )}
 
               {claim.status === 'PENDING' && (
                 <div className="item-row-actions">
