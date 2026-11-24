@@ -34,7 +34,7 @@ function DashboardHomePage() {
     {
       label: 'Claims waiting for you',
       value: foundReports.reduce((total, item) => total + item.pending_claims, 0),
-      path: '/dashboard/found-reports',
+      path: '/dashboard/verification',
     },
     { label: 'Your claims in progress', value: waitingClaims.length + approvedClaims.length, path: '/dashboard/claims' },
   ]
@@ -80,15 +80,16 @@ function DashboardHomePage() {
                   <strong>{item.title}</strong> has {item.pending_claims} claim{item.pending_claims > 1 ? 's' : ''} waiting
                   for your decision.
                 </span>
-                <Link to="/dashboard/found-reports">Review</Link>
+                <Link to={`/dashboard/verification?item=${item.item_id}`}>Review</Link>
               </li>
             ))}
             {approvedClaims.map((claim) => (
               <li key={claim.claim_id}>
                 <span>
-                  Your claim on <strong>{claim.item.title}</strong> was approved. Time to arrange the handover.
+                  Your claim on <strong>{claim.item.title}</strong> was approved.{' '}
+                  {claim.handover?.status === 'SCHEDULED' ? 'The handover is set.' : 'Time to arrange the handover.'}
                 </span>
-                <Link to="/dashboard/claims">See claim</Link>
+                <Link to="/dashboard/claims">{claim.handover?.status === 'SCHEDULED' ? 'See details' : 'Arrange it'}</Link>
               </li>
             ))}
           </ul>

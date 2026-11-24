@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 import DashboardLayout from './layouts/DashboardLayout'
+import AdminLayout from './layouts/AdminLayout'
 import RequireLogin from './routes/RequireLogin'
+import RequireAdmin from './routes/RequireAdmin'
 import HomePage from './pages/HomePage'
 import ExplorePage from './pages/ExplorePage'
 import ItemDetailsPage from './pages/ItemDetailsPage'
@@ -10,30 +12,28 @@ import MapPage from './pages/MapPage'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
 import ClaimPage from './pages/ClaimPage'
+import HelpPage from './pages/HelpPage'
+import ProfilePage from './pages/ProfilePage'
 import DashboardHomePage from './pages/dashboard/DashboardHomePage'
 import MyLostReportsPage from './pages/dashboard/MyLostReportsPage'
 import MyFoundReportsPage from './pages/dashboard/MyFoundReportsPage'
 import MyClaimsPage from './pages/dashboard/MyClaimsPage'
 import EditReportPage from './pages/dashboard/EditReportPage'
+import VerificationPage from './pages/dashboard/VerificationPage'
+import NotificationsPage from './pages/dashboard/NotificationsPage'
+import AdminOverviewPage from './pages/admin/AdminOverviewPage'
+import AdminMembersPage from './pages/admin/AdminMembersPage'
+import AdminReportsPage from './pages/admin/AdminReportsPage'
+import AdminClaimsPage from './pages/admin/AdminClaimsPage'
 import StyleGuidePage from './pages/StyleGuidePage'
-import PlaceholderPage from './pages/PlaceholderPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 /*
   Every page in Findr and the address (route) it lives at.
 
-  Pages inside <RequireLogin> need an account. Guests get sent to /login
-  and come back after logging in.
-  The placeholders say which roadmap stage builds them.
+  Pages inside <RequireLogin> need an account: guests get sent to /login
+  and come back after. Pages inside <RequireAdmin> are for community admins only.
 */
-const PLANNED_PAGES = [
-  { path: '/dashboard/verification', title: 'Claim verification', stage: '3.4', description: 'Review claims on items you found and approve the real owner.' },
-  { path: '/dashboard/notifications', title: 'Notifications', stage: '3.5', description: 'Claim decisions and handover updates.' },
-  { path: '/profile', title: 'Your profile', stage: '3.6', description: 'Your name, community and contact details.' },
-  { path: '/help', title: 'Help and contact', stage: '3.6', description: 'FAQs, safety tips and a way to reach the team.' },
-  { path: '/admin', title: 'Admin dashboard', stage: '3.6', description: 'Moderate reports, users, claims and communities.' },
-]
-
 function App() {
   return (
     <Routes>
@@ -45,27 +45,33 @@ function App() {
         <Route path="/map" element={<MapPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/help" element={<HelpPage />} />
 
         <Route element={<RequireLogin />}>
           <Route path="/report" element={<ReportPage />} />
           <Route path="/items/:id/claim" element={<ClaimPage />} />
 
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<DashboardHomePage />} />
-            <Route path="lost-reports" element={<MyLostReportsPage />} />
-            <Route path="found-reports" element={<MyFoundReportsPage />} />
-            <Route path="claims" element={<MyClaimsPage />} />
-            <Route path="reports/:id/edit" element={<EditReportPage />} />
+          {/* dashboard pages share the side menu */}
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<DashboardHomePage />} />
+            <Route path="/dashboard/lost-reports" element={<MyLostReportsPage />} />
+            <Route path="/dashboard/found-reports" element={<MyFoundReportsPage />} />
+            <Route path="/dashboard/claims" element={<MyClaimsPage />} />
+            <Route path="/dashboard/verification" element={<VerificationPage />} />
+            <Route path="/dashboard/notifications" element={<NotificationsPage />} />
+            <Route path="/dashboard/reports/:id/edit" element={<EditReportPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Route>
 
-        {PLANNED_PAGES.map((page) => (
-          <Route
-            key={page.path}
-            path={page.path}
-            element={<PlaceholderPage title={page.title} description={page.description} stage={page.stage} />}
-          />
-        ))}
+        <Route element={<RequireAdmin />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminOverviewPage />} />
+            <Route path="/admin/members" element={<AdminMembersPage />} />
+            <Route path="/admin/reports" element={<AdminReportsPage />} />
+            <Route path="/admin/claims" element={<AdminClaimsPage />} />
+          </Route>
+        </Route>
 
         {/* A page showing every shared component, for the team to check the design system */}
         <Route path="/style-guide" element={<StyleGuidePage />} />

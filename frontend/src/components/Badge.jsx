@@ -21,6 +21,17 @@ const BADGE_STYLES = {
   APPROVED: { colour: 'found', label: 'Approved' },
   REJECTED: { colour: 'lost', label: 'Not approved' },
   WITHDRAWN: { colour: 'neutral', label: 'Withdrawn' },
+
+  // handover status
+  SCHEDULED: { colour: 'info', label: 'Handover set' },
+  COMPLETED: { colour: 'returned', label: 'Handed over' },
+  CANCELLED: { colour: 'neutral', label: 'Cancelled' },
+
+  // community membership
+  ACTIVE: { colour: 'found', label: 'Active' },
+  SUSPENDED: { colour: 'lost', label: 'Suspended' },
+  MEMBER: { colour: 'neutral', label: 'Member' },
+  COMMUNITY_ADMIN: { colour: 'returned', label: 'Admin' },
 }
 
 function Badge({ status }) {
