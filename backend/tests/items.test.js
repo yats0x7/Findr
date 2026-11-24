@@ -39,7 +39,8 @@ test('items come with names and photos, never the answer hash', async () => {
   assert.equal(res.status, 200)
   assert.equal(res.body.item.category_name, 'Water Bottles')
   assert.equal(res.body.item.reporter_name, 'Rohan Verma')
-  assert.deepEqual(res.body.item.images, [])
+  assert.equal(res.body.item.images.length, 1)
+  assert.match(res.body.item.images[0].image_url, /^https:\/\/images\.unsplash\.com\//)
   assert.ok(!JSON.stringify(res.body).includes('answer_hash'))
 
   const list = await request(app).get('/api/items?limit=50')

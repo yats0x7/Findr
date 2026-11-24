@@ -405,8 +405,34 @@ export const items = [
   },
 ]
 
-// seed items have no photos
-export const item_images = []
+// Photos are free Unsplash images (unsplash.com/license), linked straight from Unsplash's CDN.
+// Resized to 800x600 by the URL so they load fast.
+function unsplash(photoId) {
+  return `https://images.unsplash.com/${photoId}?w=800&h=600&fit=crop&q=70&auto=format`
+}
+
+export const item_images = [
+  { image_id: 'image-phone-bus-stop', item_id: 'item-phone-bus-stop', image_url: unsplash('photo-1746006084492-24a8fd02710a'), uploaded_at: '2026-11-09T17:20:00+05:30' },
+  { image_id: 'image-jacket-gym', item_id: 'item-jacket-gym', image_url: unsplash('photo-1643622782660-30dedcd8d75a'), uploaded_at: '2026-11-08T20:05:00+05:30' },
+  { image_id: 'image-laptop-sleeve', item_id: 'item-laptop-sleeve', image_url: unsplash('photo-1611461527944-1a718332613b'), uploaded_at: '2026-11-08T23:10:00+05:30' },
+  { image_id: 'image-glasses-park', item_id: 'item-glasses-park', image_url: unsplash('photo-1632986636968-04958bfbbf3f'), uploaded_at: '2026-11-07T09:40:00+05:30' },
+  { image_id: 'image-tiffin-common', item_id: 'item-tiffin-common', image_url: unsplash('photo-1633504785850-018cae02cb47'), uploaded_at: '2026-11-07T22:15:00+05:30' },
+  { image_id: 'image-calculator-exam', item_id: 'item-calculator-exam', image_url: unsplash('photo-1668930185267-1f3c19851b5b'), uploaded_at: '2026-11-06T13:30:00+05:30' },
+  { image_id: 'image-backpack-lab', item_id: 'item-backpack-lab', image_url: unsplash('photo-1577733975197-3b950ca5cabe'), uploaded_at: '2026-11-05T18:00:00+05:30' },
+  { image_id: 'image-umbrella-gate', item_id: 'item-umbrella-gate', image_url: unsplash('photo-1514882651048-f09572b0233e'), uploaded_at: '2026-11-04T19:45:00+05:30' },
+  { image_id: 'image-notebook-library', item_id: 'item-notebook-library', image_url: unsplash('photo-1612367980327-7454a7276aa7'), uploaded_at: '2026-11-04T16:20:00+05:30' },
+  { image_id: 'image-wallet-parking', item_id: 'item-wallet-parking', image_url: unsplash('photo-1624538000860-24716b9050f2'), uploaded_at: '2026-11-03T10:15:00+05:30' },
+  { image_id: 'image-hoodie-mess', item_id: 'item-hoodie-mess', image_url: unsplash('photo-1641377061384-61e0ce81f717'), uploaded_at: '2026-11-03T09:30:00+05:30' },
+  { image_id: 'image-bottle-cafeteria', item_id: 'item-bottle-cafeteria', image_url: unsplash('photo-1749554666934-66f7c285d3b3'), uploaded_at: '2026-11-02T14:00:00+05:30' },
+  { image_id: 'image-charger-library', item_id: 'item-charger-library', image_url: unsplash('photo-1756043827116-5764e6d23d85'), uploaded_at: '2026-11-01T18:30:00+05:30' },
+  { image_id: 'image-cycle-key', item_id: 'item-cycle-key', image_url: unsplash('photo-1604445415362-2a9840bd5ff6'), uploaded_at: '2026-11-01T08:10:00+05:30' },
+  { image_id: 'image-keys-hostel', item_id: 'item-keys-hostel', image_url: unsplash('photo-1575908539614-ff89490f4a78'), uploaded_at: '2026-10-31T21:00:00+05:30' },
+  { image_id: 'image-id-card-lh3', item_id: 'item-id-card-lh3', image_url: unsplash('photo-1671376354112-6de3d08b97af'), uploaded_at: '2026-10-30T11:00:00+05:30' },
+  { image_id: 'image-passport-copies', item_id: 'item-passport-copies', image_url: unsplash('photo-1654610285929-a1b63280dd60'), uploaded_at: '2026-10-29T17:50:00+05:30' },
+  { image_id: 'image-earbuds-sports', item_id: 'item-earbuds-sports', image_url: unsplash('photo-1606741965326-cb990ae01bb2'), uploaded_at: '2026-10-28T19:00:00+05:30' },
+  { image_id: 'image-watch-auditorium', item_id: 'item-watch-auditorium', image_url: unsplash('photo-1587836374828-4dbafa94cf0e'), uploaded_at: '2026-10-27T20:00:00+05:30' },
+  { image_id: 'image-bottle-hostel', item_id: 'item-bottle-hostel', image_url: unsplash('photo-1599030302844-568e71a28ce1'), uploaded_at: '2026-10-26T08:30:00+05:30' },
+]
 
 // one per FOUND item, answer_hash = sha256(lowercase answer)
 export const verification_questions = [
